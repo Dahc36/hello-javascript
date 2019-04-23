@@ -182,17 +182,18 @@ class SinglyLinkedList {
   }
 
   toString() {
-    if(this.head){
-      let result = '[ ';
-      let currentNode = this.head;
-      result += currentNode.data;
-      while(currentNode.next) {
-        currentNode = currentNode.next;
-        result += ', ' + currentNode.data;
-      }
-      result += ' ]';
-      return result;
+    if(!this.head){
+      return [];
     }
-    return '[]';
+
+    let result = [];
+    let currentNode = this.head;
+    result.push(currentNode.data);
+    while(currentNode.next) {
+      currentNode = currentNode.next;
+      result.push(currentNode.data);
+    }
+
+    return result;
   }
 }
