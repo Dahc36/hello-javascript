@@ -11,40 +11,42 @@ class BST {
     }
   }
 
-  add(data) {
-    if (this.root === null) {
-      this.root = new BST.Node(data);
-      return this.root;
-    }
-
-    let previousNode = this.root;
-    let currentNode = data < previousNode.data ? previousNode.left : previousNode.right;
-    while (currentNode) {
-      if (data === currentNode.data) {
-        return null;
+  add(...datas) {
+    function addNode(data) {
+      if (this.root === null) {
+        this.root = new BST.Node(data);
+        return this.root;
       }
 
-      previousNode = currentNode;
-      currentNode = data < currentNode.data ? currentNode.left : currentNode.right;
+      let previousNode = this.root;
+      let currentNode = data < previousNode.data ? previousNode.left : previousNode.right;
+      while (currentNode) {
+        if (data === currentNode.data) {
+          return null;
+        }
+
+        previousNode = currentNode;
+        currentNode = data < currentNode.data ? currentNode.left : currentNode.right;
+      }
+
+      if (data < previousNode.data) {
+        previousNode.left = new BST.Node(data);
+        return previousNode.left;
+      }
+
+      if (data > previousNode.data) {
+        previousNode.right = new BST.Node(data);
+        return previousNode.right;
+      }
+
+      return null;
     }
 
-    if (data < previousNode.data) {
-      previousNode.left = new BST.Node(data);
-      return previousNode.left;
+    for (const data of datas) {
+      addNode.bind(this)(data);
     }
 
-    if (data > previousNode.data) {
-      previousNode.right = new BST.Node(data);
-      return previousNode.right;
-    }
-
-    return null;
-  }
-
-  addValues(...values) {
-    for (const value of values) {
-      this.add(value);
-    }
+    return this.root;
   }
 
   find(data) {
