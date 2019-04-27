@@ -1,34 +1,5 @@
-class Animal {
-  constructor(species, legs) {
-    this.species = species;
-    this.legs = legs;
-  }
+let arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1 ];
 
-  static isDog(animal) {
-    return animal.speak() === 'Woof!';
-  }
-
-  speak() {
-    return '...';
-  }
+for (const [ index, value ] of arr.entries()) {
+  console.log(`arr[${index}] = ${value}`);
 }
-
-class Dog extends Animal {
-  constructor(breed) {
-    super('Mammal', 4);
-    this.breed = breed;
-  }
-
-  speak() {
-    return 'Woof!';
-  }
-}
-
-class Spider extends Animal {
-  constructor() {
-    super('Arachnid', 8);
-  }
-}
-
-const dog = new Dog('German shepherd');
-const spider = new Spider();

@@ -28,7 +28,7 @@
 // Console.log, hello world
 console.log('Hello world!');
 
-// 01 - Variables ******************************************************************************
+// 01 - Variables ************************************************************************************************************
 // Declaración
 var x = 1;
 console.log('X:');
@@ -120,7 +120,7 @@ if (numeroPar % 2 == 1) {
 }
 console.log('2 - Número ' + numeroPar);
 
-// 02 - Functions ******************************************************************************
+// 02 - Functions ************************************************************************************************************
 // Declaration, expression, named, anonymous
 function nombreFunc(arg) {
   console.log('nombreFunc');
@@ -165,7 +165,7 @@ const func1 = function(y) {
 func1(2);
 console.log(x);
 
-// 03 - Objects ******************************************************************************
+// 03 - Objects ************************************************************************************************************
 // Properties and methods
 let propName = 'String value';
 let myObj = {
@@ -182,6 +182,8 @@ console.log(myObj);
 
 // Referencia
 // comparison by value or reference
+// ternary operator
+// truthy, falsy
 let obj1 = {
   x: 1
 };
@@ -191,7 +193,7 @@ let obj2 = {
 console.log(obj1 == obj2);
 console.log(obj1 === obj2);
 
-// Spread operator
+// Spread operator (con reemplazar alguna variable)
 let obj1 = {
   x: 1
 };
@@ -222,6 +224,16 @@ const obj = {
 obj.x = 2;
 console.log(obj);
 
+// Func por referencia
+const changeX = function(obj) {
+  obj.x = 'new';
+}
+const myObj = {
+  x: 1
+};
+changeX(myObj);
+console.log(myObj);
+
 // This, arrow func?
 // this -> window
 // var x = 'a'; window.varX
@@ -240,6 +252,7 @@ obj2 = {
 console.log(obj1.bar());
 console.log(obj2.bar());
 
+// this depende donde se llame a la función
 const foo = function () {
   let that = this;
   const foo2 = function () {
@@ -258,6 +271,10 @@ obj2 = {
 console.log(obj1.bar());
 console.log(obj2.bar());
 
+// Arrow functions
+const add => (a, b) => a + b;
+
+// This se hereda
 const foo = function() {
   const foo2 = () => {
     return this;
@@ -272,10 +289,10 @@ obj2 = {
   b: 2,
   bar: _ => this
 };
-
 console.log(obj1.bar());
 console.log(obj2.bar());
 
+// Ejemplo peludo
 const foo = function() {
   const foo2 = () => {
     return this;
@@ -343,13 +360,98 @@ const spider = new Spider();
   }
 // ...
 
-// Global objects & methods
-// String, template literals
-// Array: find, indexOf, filter, reduce, map, spread operator
+// 04 - Global objects & methods ********************************************************************************************************
+// String
+// Template literals
+let greeting = 'Hello';
+let name = 'David';
+let lastName = 'Hans';
+console.log(greeting + ', my name is ' + name + ' ' + lastName + '!');
+console.log(`${greeting}, my
+  name is ${name} ${lastName}!`);
+
+let str = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.';
+// length
+// charAt()
+for (let i = 0; i < str.length; i++) {
+  console.log(str.charAt(i));
+}
+// indexOf()
+// toLowerCase(), toUpperCase()
+// substring(6, 11)
+// replace(/[eio]/g, '')
+// split('') split(' ')
+
+// Array
+// length
+// indexOf
+// for
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
+// for of
+for (const value of arr) {
+  console.log(value);
+}
+// forEach
+const doToEachArr = function(callback) {
+  for (const value of arr) {
+    callback(value);
+  }
+}
+doToEachArr(value => {
+  console.log(value.charAt(0));
+});
+
+arr.forEach(value => console.log(value.charAt(0)));
+// filter
+const filteredArr = arr.filter(value => value.indexOf('e') > -1);
+console.log(filteredArr);
+// reduce
+let arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1 ];
+const sum = arr.reduce((result, value) => result += value, 0);
+console.log(sum);
+
+let arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1, 5, 4, 3, 6, 1, 8, 5, 7, 4, 6, 1, 4, 3, 5, 4, 4, 4 ];
+const freqMap = arr.reduce((result, value) => ({
+  ...result,
+  [value]: result[value] ? result[value] + 1 : 1
+}), {});
+console.log(freqMap);
+// sort
+let arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1 ];
+const sortedArr = arr.sort((a, b) => a - b);
+console.log(sortedArr);
+// map
+let arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1 ];
+const newArr = arr.map(value => value * 2);
+console.log(newArr);
+
+let arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1 ];
+const newArr = arr
+  .map((value, index) => ({
+    pos: index,
+    value
+  }))
+  .sort((a, b) => a.value - b.value);
+console.log(newArr);
+
+// entries (for)
+// desctructuring
+const arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1 ];
+const [ a, b, c ] = arr;
+
+const x = {
+  a: 'Hello',
+  b: 'World'
+};
+const { a, b } = x;
+
 // Function: bind, call, apply
 // Object: keys, values, entries, spread operator
 // Math
 // Window, document
+// alert('Alerta!')
 
 // Callbacks & Functional programming
 const add = function(x) {
