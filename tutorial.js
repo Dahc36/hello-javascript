@@ -1,5 +1,9 @@
-let arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1 ];
+const obj1 = {
+  x: 'Equis',
+  y: 'Igriega',
+  z: 'zeta'
+}
 
-for (const [ index, value ] of arr.entries()) {
-  console.log(`arr[${index}] = ${value}`);
+for (const [key, value] of Object.entries(obj1)) {
+  console.log(`${key}: ${value}`);
 }

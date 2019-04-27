@@ -447,11 +447,64 @@ const x = {
 };
 const { a, b } = x;
 
-// Function: bind, call, apply
-// Object: keys, values, entries, spread operator
+let arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1 ];
+for (const value of arr.entries()) {
+  console.log(value);
+}
+
+let arr = [ 5, 4, 6, 3, 7, 8, 2, 9, 1 ];
+for (const [ index, value ] of arr.entries()) {
+  console.log(`arr[${index}] = ${value}`);
+}
+
+// Function
+// call
+let foo = function(value) {
+  // console.log(this);
+  // console.log(value);
+  this.x = value
+};
+const obj1 = {
+  x: ''
+}
+const obj2 = {
+  x: ''
+}
+foo.call(obj1, 'Hello 1');
+foo.call(obj2, 'Hello 2');
+console.log(obj1);
+console.log(obj2);
+
+// bind
+let foo = function(value) {
+  // console.log(this);
+  // console.log(value);
+  this.x = value
+};
+const obj1 = {
+  x: ''
+}
+console.log(obj1);
+obj1Foo = foo.bind(obj1);
+obj1Foo('New value');
+console.log(obj1);
+
+// Object: keys, values, entries
+const obj1 = {
+  x: 'Equis',
+  y: 'Igriega',
+  z: 'zeta'
+}
+// Object.keys(obj1)
+// Object.values(obj1)
+for (const [key, value] of Object.entries(obj1)) {
+  console.log(`${key}: ${value}`);
+}
+
 // Math
 // Window, document
 // alert('Alerta!')
+document.getElementById('root').innerHTML = 'Hello SEA!';
 
 // Callbacks & Functional programming
 const add = function(x) {
