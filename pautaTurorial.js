@@ -504,7 +504,121 @@ for (const [key, value] of Object.entries(obj1)) {
 // Math
 // Window, document
 // alert('Alerta!')
+// DOM manipulation
 document.getElementById('root').innerHTML = 'Hello SEA!';
+// Events
+let clicks = 0;
+document.getElementById('root').addEventListener('click', event => {
+  clicks += 1;
+  console.log(clicks);
+});
+
+// 05 - Async programming ***********************************************************************************************************
+const start = new Date();
+console.log(`Start: ${start.getHours()}:${start.getMinutes()}:${start.getSeconds()}`);
+const log = function(value) {
+  let time = (new Date() - start) / 1000 + 's';
+  console.log(`${value} (${time})`);
+};
+const blocker = function () {
+  let n = 1000000000;
+  let i = 0;
+  while (i < n) {
+    i++;
+  }
+  return 'Blocker done!';
+}
+log('First normal log');
+log('' + blocker());
+log('Second normal log');
+
+
+// Timeouts
+log('Synch 1');
+setTimeout(() => log('Timeout'), 2000);
+log('Synch 2');
+
+log('Synch 1');
+setTimeout(() => log('Timeout'), 2000);
+log(blocker());
+log('Synch 2');
+// longer blocker
+
+log('Synch 1');
+setTimeout(() => log('Timeout'), 0);
+log('Synch 2');
+
+// Promises
+function asyncCheck(value) {
+  if (value) {
+    return 'Truthy';
+  }
+  return 'Falsy';
+};
+log('Synch 1');
+log(asyncCheck(true));
+log('Synch 2');
+
+function asyncCheck(value) {
+  return new Promise((resolve, reject) => {
+    if (value) {
+      resolve('Truthy');
+    }
+    reject('Falsy');
+  });
+};
+log('Synch 1');
+asyncCheck(true)
+  .then(response => log(response))
+  .catch(error => log(error));
+log('Synch 2');
+
+function blocker() {
+  return Promise.resolve().then(_ => {
+    let n = 1000000000;
+    let i = 0;
+    while (i < n) {
+      i++;
+    }
+    return 'Blocker!';
+  });
+}
+log('Synch 1');
+blocker()
+  .then(response => log(response));
+log('Synch 2');
+
+// Fetch
+fetch('https://swapi.co/api/people/')
+  .then(response => {
+    response.json()
+      .then(response => {
+        console.log(response);
+      });
+  });
+
+fetch('https://swapi.co/api/people/')
+  .then(response => {
+    return response.json();
+  })
+  .then(response => {
+    let personajes = response.results.map(value => value.name);
+    console.log(personajes);
+  });
+
+// Async await
+const fetchCharacters = async function () {
+  let response = await fetch('https://swapi.co/api/people/');
+  let data = await response.json();
+  const luke = data.results[0];
+  response = await fetch(luke.species);
+  data = await response.json();
+  return data;
+};
+fetchCharacters()
+  .then(response => {
+    console.log(response);
+  });
 
 // Callbacks & Functional programming
 const add = function(x) {
@@ -514,13 +628,7 @@ const add = function(x) {
 };
 // High order functions, curried functions
 
-// DOM manipulation
-// Hello world
-// Events
-// Async programming
-// Timeouts
-// Promises & event loop
-// Async await
-// Fetch
 // DOM manipulation example
+input click search print results
+
 // Node project
