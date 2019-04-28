@@ -1,22 +1,8 @@
-/*fetch('https://swapi.co/api/people/')
-  .then(response => {
-    response.json();
-  })
-  .then(response => {
-    let personajes = response.results.map(value => value.name);
-    console.log(personajes);
-  });
-*/
-const fetchCharacters = async function () {
-  let response = await fetch('https://swapi.co/api/people/');
-  let data = await response.json();
-  const luke = data.results[0];
-  response = await fetch(luke.species);
-  data = await response.json();
-  return data;
+const add = function (...values) {
+  return values.reduce((result, value) => result + value, 0);
 };
 
-fetchCharacters()
-  .then(response => {
-    console.log(response);
-  });
+const numbersOnly = function (callback, ...values) {
+  const cleanValues = values.filter(value => typeof value === 'number');
+  return callback(...cleanValues);
+};

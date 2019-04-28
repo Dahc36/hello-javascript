@@ -620,15 +620,98 @@ fetchCharacters()
     console.log(response);
   });
 
-// Callbacks & Functional programming
-const add = function(x) {
-  return function(y) {
-    return x + y;
+// 06 - Callbacks & Functional programming *****************************************************************************************************
+// Curried functions
+const add = function (a, b) {
+  return a + b;
+};
+
+const add = a => b => a + b;
+
+// High order functions
+const add = function (...values) {
+  return values.reduce((result, value) => result + value, 0);
+};
+
+const numbersOnly = function (callback, ...values) {
+  const cleanValues = values.filter(value => typeof value === 'number');
+  return callback(...cleanValues);
+};
+
+// 07 - DOM manipulation example *****************************************************************************************************
+/*
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tutorial JS</title> 
+</head>
+<body>
+  <div id="root">
+    <input id="search-input" type="text">
+    <button id="search-button">Search</button>
+    <div>
+      <h3>Search results</h3>
+      <ul id="result-list"></ul>
+    </div>
+    <div>
+      <h4>Character details</h4>
+      <ul id="character-details"></ul>
+    </div>
+  </div>
+  <script src="tutorial.js" ></script>
+</body>
+</html>
+*/
+
+let textInput = '';
+const setTextInput = function (event) {
+  textInput = event.target.value;
+};
+
+const selectCharacter = character => event => {
+  let details = document.getElementById('character-details');
+  while (details.firstChild) {
+    details.removeChild(details.firstChild);
+  }
+  for (const [key, value] of Object.entries(character)) {
+    let characterValue = document.createElement('li');
+    characterValue.innerHTML = `${key}: ${value}`;
+    details.appendChild(characterValue);
   }
 };
-// High order functions, curried functions
 
-// DOM manipulation example
-input click search print results
+const createList = function (list) {
+  let listElement = document.getElementById('result-list');
+  while (listElement.firstChild) {
+    listElement.removeChild(listElement.firstChild);
+  }
+  for (const value of list) {
+    let listItem = document.createElement('li');
+    listItem.innerHTML = value.name;
+    listItem.addEventListener('click', selectCharacter(value))
+    listElement.appendChild(listItem);
+  }
+};
+
+const geResults = async function (search) {
+  const response = await fetch('https://swapi.co/api/people/?search=' + search);
+  const data = await response.json();
+  return data.results;
+};
+
+const search = function (event) {
+  console.log('Searching...');
+  geResults(textInput).then(results => {
+    createList(results);
+    console.log('Done searching');
+  });
+};
+
+document.getElementById('search-input')
+  .addEventListener('input', setTextInput);
+
+document.getElementById('search-button')
+  .addEventListener('click', search);
 
 // Node project
