@@ -1,4 +1,4 @@
-class BST {
+class BinarySearchTree {
   constructor() {
     this.root = null;
   }
@@ -11,10 +11,27 @@ class BST {
     }
   }
 
+  static balance = function (binarySearchTree) {
+    const resultBST = new BinarySearchTree();
+    const addSortedArray = function (array) {
+      if (array.length === 1) {
+        resultBST.add(array[0]);
+      } else if (array.length > 1) {
+        const half = Math.floor(array.length / 2);
+        resultBST.add(array[half]);
+        addSortedArray(array.slice(0, half));
+        addSortedArray(array.slice(half + 1));
+      }
+    }
+
+    addSortedArray(binarySearchTree.values());
+    return resultBST;
+  }
+
   add(...values) {
     function addNode(value) {
       if (this.root === null) {
-        this.root = new BST.Node(value);
+        this.root = new BinarySearchTree.Node(value);
         return this.root;
       }
 
@@ -30,12 +47,12 @@ class BST {
       }
 
       if (value < previousNode.value) {
-        previousNode.left = new BST.Node(value);
+        previousNode.left = new BinarySearchTree.Node(value);
         return previousNode.left;
       }
 
       if (value > previousNode.value) {
-        previousNode.right = new BST.Node(value);
+        previousNode.right = new BinarySearchTree.Node(value);
         return previousNode.right;
       }
 
@@ -49,47 +66,62 @@ class BST {
     return this.root;
   }
 
-  find(value) {
-    if (this.root === null) {
+  find(value, node = this.root) {
+    if (node === null) {
       return null;
     }
 
-    let currentNode = this.root;
+    let currentNode = node;
     while (currentNode) {
       if (value === currentNode.value) {
         return currentNode;
       }
-
       currentNode = value < currentNode.value ? currentNode.left : currentNode.right;
     }
 
     return null;
   }
 
-  findMin() {
-    if (this.root === null) {
-      return null;
+  findCommonAncestor(value1, value2, node = this.root) {
+    const values = [value1, value2].sort((a, b) => a - b);
+    let currentNode = node;
+    while (currentNode !== null) {
+      if (values[0] <= currentNode.value) {
+        if (values[1] >= currentNode.value) {
+          return currentNode;
+        } else {
+          currentNode = currentNode.left;
+        }
+      } else {
+        currentNode = currentNode.right;
+      }
     }
 
-    let currentNode = this.root;
-    while (currentNode.left) {
-      currentNode = currentNode.left;
-    }
-
-    return currentNode;
+    return null;
   }
 
-  findMax() {
-    if (this.root === null) {
-      return null;
+  findDistanceTo(value, node = this.root) {
+    if (node === null) {
+      return -1;
     }
 
-    let currentNode = this.root;
-    while (currentNode.right) {
-      currentNode = currentNode.right;
+    let currentNode = node;
+    let distance = 0
+    while (currentNode) {
+      if (value === currentNode.value) {
+        return distance;
+      }
+
+      currentNode = value < currentNode.value ? currentNode.left : currentNode.right;
+      distance += 1;
     }
 
-    return currentNode;
+    return -1;
+  }
+
+  findDistanceBetween(value1, value2, node = this.root) {
+    const smallestAncestor = this.findCommonAncestor(value1, value2, node);
+    return this.findDistanceTo(value1, smallestAncestor) + this.findDistanceTo(value2, smallestAncestor);
   }
 
   height(node = this.root) {
@@ -99,23 +131,24 @@ class BST {
     return 1 + Math.max(this.height(node.left), this.height(node.right));
   }
 
-  findCommonAncestor(value1, value2) {
-    const values = [value1, value2].sort((a, b) => a - b);
-    let currentNode = this.root;
-    while (currentNode !== null) {
-      if (values[0] <= currentNode) {
-        if (values[1] >= currentNode) {
-          return currentNode;
-        }
-        currentNode = currentNode.left;
-      }
-      currentNode = currentNode.right;
+  heightMin(node = this.root) {
+    if (node === null) {
+      return -1;
     }
-
-    return null;
+    return 1 + Math.min(this.heightMin(node.left), this.heightMin(node.right));
   }
 
-  toString(order = 'in') {
+  isBalanced(node = this.root) {
+    if (node === null) {
+      return true;
+    }
+    if (this.height(node) - this.heightMin(node) < 2) {
+      return true;
+    }
+    return false;
+  }
+
+  values(order = 'in') {
     if (this.root === null || [ 'in', 'pre', 'post', 'level' ].indexOf(order) === -1) {
       return null;
     }

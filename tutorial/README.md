@@ -129,8 +129,8 @@ let foo = function(x) {
   return x;
 }
 
-console.log(`foo(x) = ${foo(x)}`);
-console.log(`x = ${x}`);
+console.log(`foo(x).a = ${foo(x).a}`);
+console.log(`x.a = ${x.a}`);
 ```
 
 ## Closure
