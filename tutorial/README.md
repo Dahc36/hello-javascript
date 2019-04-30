@@ -1,6 +1,6 @@
 # Project setup
 
-## HTML
+**HTML**
 ```HTML
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +15,7 @@
 </html>
 ```
 
-## JS
+**JS**
 ```JavaScript
 console.log('Hello world!');`
 ```
@@ -511,6 +511,7 @@ console.log(`numbersOnly(add, 2, [ 0 ], 3, '', 1, true, 9) = ${numbersOnly(add, 
 ```
 
 # Example
+**HTML**
 ```HTML
 <!DOCTYPE html>
 <html lang="es">
@@ -536,6 +537,7 @@ console.log(`numbersOnly(add, 2, [ 0 ], 3, '', 1, true, 9) = ${numbersOnly(add, 
 </html>
 ```
 
+**JS**
 ```JavaScript
 let textInput = '';
 const setTextInput = function (event) {
