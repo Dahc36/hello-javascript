@@ -714,4 +714,3 @@ document.getElementById('search-input')
 document.getElementById('search-button')
   .addEventListener('click', search);
 
-// Node project

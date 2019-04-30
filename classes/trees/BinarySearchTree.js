@@ -1,66 +1,66 @@
 class BST {
   constructor() {
-    this.root = null
+    this.root = null;
   }
 
   static Node = class Node {
-    constructor(data) {
-      this.data = data;
+    constructor(value) {
+      this.value = value;
       this.left = null;
       this.right = null;
     }
   }
 
-  add(...datas) {
-    function addNode(data) {
+  add(...values) {
+    function addNode(value) {
       if (this.root === null) {
-        this.root = new BST.Node(data);
+        this.root = new BST.Node(value);
         return this.root;
       }
 
       let previousNode = this.root;
-      let currentNode = data < previousNode.data ? previousNode.left : previousNode.right;
+      let currentNode = value < previousNode.value ? previousNode.left : previousNode.right;
       while (currentNode) {
-        if (data === currentNode.data) {
+        if (value === currentNode.value) {
           return null;
         }
 
         previousNode = currentNode;
-        currentNode = data < currentNode.data ? currentNode.left : currentNode.right;
+        currentNode = value < currentNode.value ? currentNode.left : currentNode.right;
       }
 
-      if (data < previousNode.data) {
-        previousNode.left = new BST.Node(data);
+      if (value < previousNode.value) {
+        previousNode.left = new BST.Node(value);
         return previousNode.left;
       }
 
-      if (data > previousNode.data) {
-        previousNode.right = new BST.Node(data);
+      if (value > previousNode.value) {
+        previousNode.right = new BST.Node(value);
         return previousNode.right;
       }
 
       return null;
     }
 
-    for (const data of datas) {
-      addNode.bind(this)(data);
+    for (const value of values) {
+      addNode.bind(this)(value);
     }
 
     return this.root;
   }
 
-  find(data) {
+  find(value) {
     if (this.root === null) {
       return null;
     }
 
     let currentNode = this.root;
     while (currentNode) {
-      if (data === currentNode.data) {
+      if (value === currentNode.value) {
         return currentNode;
       }
 
-      currentNode = data < currentNode.data ? currentNode.left : currentNode.right;
+      currentNode = value < currentNode.value ? currentNode.left : currentNode.right;
     }
 
     return null;
@@ -92,6 +92,29 @@ class BST {
     return currentNode;
   }
 
+  height(node = this.root) {
+    if (node === null) {
+      return -1;
+    }
+    return 1 + Math.max(this.height(node.left), this.height(node.right));
+  }
+
+  findCommonAncestor(value1, value2) {
+    const values = [value1, value2].sort((a, b) => a - b);
+    let currentNode = this.root;
+    while (currentNode !== null) {
+      if (values[0] <= currentNode) {
+        if (values[1] >= currentNode) {
+          return currentNode;
+        }
+        currentNode = currentNode.left;
+      }
+      currentNode = currentNode.right;
+    }
+
+    return null;
+  }
+
   toString(order = 'in') {
     if (this.root === null || [ 'in', 'pre', 'post', 'level' ].indexOf(order) === -1) {
       return null;
@@ -100,12 +123,12 @@ class BST {
     const orderFunctions = {
       in(node) {
         node.left && orderFunctions.in(node.left);
-        result.push(node.data);
+        result.push(node.value);
         node.right && orderFunctions.in(node.right);
       },
 
       pre(node) {
-        result.push(node.data);
+        result.push(node.value);
         node.left && orderFunctions.pre(node.left);
         node.right && orderFunctions.pre(node.right);
       },
@@ -113,7 +136,7 @@ class BST {
       post(node) {
         node.left && orderFunctions.post(node.left);
         node.right && orderFunctions.post(node.right);
-        result.push(node.data);
+        result.push(node.value);
       },
 
       level(node) {
@@ -121,7 +144,7 @@ class BST {
         queue.push(node);
         while (queue.length > 0) {
           let currentNode = queue.shift();
-          result.push(currentNode.data);
+          result.push(currentNode.value);
           if (currentNode.left !== null) {
             queue.push(currentNode.left);
           }
