@@ -1,6 +1,4 @@
-// let myList = new Trie();
-
-function fileInputListener(event) {
+const fileInputListener = function (event) {
   const file = event.target.files[0];
   let reader = new FileReader();
   let stringFile = null;
@@ -13,9 +11,18 @@ function fileInputListener(event) {
   reader.readAsText(file);
 }
 
+const processfileAsText = function (event) {
+  foo(event.detail.text);
+}
+
 document.getElementById('file-input').addEventListener('change', fileInputListener);
 document.getElementById('file-input').addEventListener('changeAsText', processfileAsText);
 
-function processfileAsText(event) {
-  console.log(event.detail.text);
+
+function foo(text) {
+  const arr = text.split('\n');
+  for (let i = 1; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
 }
+

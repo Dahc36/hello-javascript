@@ -148,6 +148,19 @@ class BinarySearchTree {
     return false;
   }
 
+  isBinarySearchTree(node = this.root) {
+    if (node === null) {
+      return true;
+    }
+    if (
+      (node.left !== null && node.left.value >= node.value) ||
+      (node.left !== null && node.right.value <= node.value)
+    ) {
+      return false;
+    }
+    return this.isBinarySearchTree(node.left) && this.isBinarySearchTree(node.right);
+  }
+
   values(order = 'in') {
     if (this.root === null || [ 'in', 'pre', 'post', 'level' ].indexOf(order) === -1) {
       return null;

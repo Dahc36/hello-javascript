@@ -255,3 +255,27 @@ const largestProductGrid = function (strGrid, digits = 2) {
   return maxProd;
 }
 
+// 12. Highly divisible triangular number
+const triangleNumberWithDivisors =  function (n = 5) {
+  let i = 1;
+  while (true) {
+    const triangle = i * (i + 1) / 2;
+    const div = divisors(triangle);
+    console.log(`${triangle} (${div})`);
+    if (div > n) {
+      return triangle;
+    }
+    i += 1;
+  }
+}
+
+// TODO: optimizar para pares
+const divisors = function (n) {
+  let counter = 1;
+  for (let i = 1; i < n ** 2; i++) {
+    if (n % i === 0) {
+      counter += 1;
+    }
+  }
+  return counter;
+}
