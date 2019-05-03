@@ -48,19 +48,16 @@ function minDistance(area) {
   }
 
   const calculateDistanceFromBottomRight = function (row, col) {
-    console.log(`row: ${row}, col: ${col}`);
-    console.log(distanceMap);
-    console.log(distanceMap[row][col]);
-    if (row === area.lenght - 1) {
-      if (col === area[0].lenght - 1) {
+    if (row === area.length - 1) {
+      if (col === area[0].length - 1) {
         return distanceMap[row][col];
       }
-      return calculateMinValue(distanceMap[row + 1][col + 1] - 1,distanceMap[row][col + 1]);
+      return calculateMinValue(distanceMap[row][col] - 1, distanceMap[row][col + 1]);
     }
-    if (col === area[0].lenght - 1) {
-      return calculateMinValue(distanceMap[row + 1][col + 1] - 1,distanceMap[row + 1][col])
+    if (col === area[0].length - 1) {
+      return calculateMinValue(distanceMap[row][col] - 1, distanceMap[row + 1][col])
     }
-    return calculateMinValue(distanceMap[row + 1][col + 1] - 1,distanceMap[row + 1][col], distanceMap[row][col + 1])
+    return calculateMinValue(distanceMap[row][col] - 1, distanceMap[row + 1][col], distanceMap[row][col + 1])
   }
 
   const calculateMinValue = function (...values) {
