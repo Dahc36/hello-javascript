@@ -26,9 +26,32 @@ function foo(text) {
   }
 
   // My proccess
-  area = text.split('\n')
-    .map(line => line.split(' ').map(cell => Number.parseInt(cell)));
-  minDistance(area)
+  boxes = text.split('\n');
+  console.log(sortBoxes(boxes));
+}
+
+const sortBoxes = function (boxes) {
+  const isOld = function (box) {
+    return isNaN(Number.parseInt(box.split(' ')[1]));
+  }
+
+  const newBoxes = boxes.filter(box => !isOld(box));
+  const sortedOldBoxes = boxes
+    .filter(box => isOld(box))
+    .sort((a, b) => {
+      const [aId, ...aVersion] = a.split(' ');
+      const [bId, ...bVersion] = b.split(' ');
+      const sortOrder = aVersion.join(' ').localeCompare(bVersion.join(' '));
+      if (sortOrder === 0) {
+        return aId.localeCompare(bId);
+      }
+      return sortOrder;
+    });
+
+  return [
+    ...sortedOldBoxes,
+    ...newBoxes
+  ];
 }
 
 function minDistance(area) {
